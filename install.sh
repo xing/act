@@ -359,7 +359,7 @@ End of functions from https://github.com/client9/shlib
 EOF
 
 PROJECT_NAME="act"
-OWNER=nektos
+OWNER=xing
 REPO="act"
 BINARY=act
 FORMAT=tar.gz

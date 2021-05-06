@@ -113,7 +113,8 @@ func (sc *StepContext) mergeEnv() map[string]string {
 	}
 
 	if (rc.ExtraPath != nil) && (len(rc.ExtraPath) > 0) {
-		env["PATH"] = strings.Join(rc.ExtraPath, `:`)
+		s := append(rc.ExtraPath, `/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin`)
+		env["PATH"] = strings.Join(s, `:`)
 	}
 
 	sc.Env = rc.withGithubEnv(env)
@@ -130,7 +131,7 @@ func (sc *StepContext) setupEnv(ctx context.Context) (ExpressionEvaluator, error
 	rc := sc.RunContext
 	sc.Env = sc.mergeEnv()
 	if sc.Env != nil {
-		err := rc.JobContainer.UpdateFromEnv(sc.Env["GITHUB_ENV"], &sc.Env)(ctx)
+		err := rc.JobContainer.UpdateFromGithubEnv(&sc.Env)(ctx)
 		if err != nil {
 			return nil, err
 		}

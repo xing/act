@@ -428,10 +428,10 @@ func (sc *StepContext) runAction(actionDir string, actionPath string) common.Exe
 					return nil
 				}
 			}
-			err := removeGitIgnore(actionDir)
-			if err != nil {
-				return err
-			}
+			// err := removeGitIgnore(actionDir)
+			// if err != nil {
+			// 	return err
+			// }
 			return rc.JobContainer.CopyDir(containerActionDir+"/", actionLocation+"/", rc.Config.UseGitIgnore)(ctx)
 		}
 
@@ -654,12 +654,9 @@ func removeGitIgnore(directory string) error {
 	if _, err := os.Stat(gitIgnorePath); err == nil {
 		// .gitignore exists
 		log.Debugf("Removing %s before docker cp", gitIgnorePath)
-		// ignore errors which might happen if multiple jobs try to delete the
-		// .gitignore file in parallel
 		err := os.Remove(gitIgnorePath)
 		if err != nil {
-			log.Warn("Error while removing .gitignore")
-			return nil
+			return err
 		}
 	}
 	return nil

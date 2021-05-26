@@ -474,9 +474,6 @@ func (sc *StepContext) runAction(actionDir string, actionPath string, localActio
 			if step.Type() != model.StepTypeUsesActionRemote {
 				return nil
 			}
-			if err := removeGitIgnore(actionDir); err != nil {
-				return err
-			}
 
 			var containerActionDirCopy string
 			containerActionDirCopy = strings.TrimSuffix(containerActionDir, actionPath)
@@ -709,21 +706,4 @@ func newRemoteAction(action string) *remoteAction {
 		Ref:  matches[6],
 		URL:  "github.com",
 	}
-}
-
-// https://github.com/nektos/act/issues/228#issuecomment-629709055
-// files in .gitignore are not copied in a Docker container
-// this causes issues with actions that ignore other important resources
-// such as `node_modules` for example
-func removeGitIgnore(directory string) error {
-	gitIgnorePath := path.Join(directory, ".gitignore")
-	if _, err := os.Stat(gitIgnorePath); err == nil {
-		// .gitignore exists
-		log.Debugf("Removing %s before docker cp", gitIgnorePath)
-		err := os.Remove(gitIgnorePath)
-		if err != nil {
-			return err
-		}
-	}
-	return nil
 }

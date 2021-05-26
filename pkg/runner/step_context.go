@@ -656,7 +656,11 @@ func removeGitIgnore(directory string) error {
 		log.Debugf("Removing %s before docker cp", gitIgnorePath)
 		// ignore errors which might happen if multiple jobs try to delete the
 		// .gitignore file in parallel
-		os.Remove(gitIgnorePath)
+		err := os.Remove(gitIgnorePath)
+		if err != nil {
+			log.Warn("Error while removing .gitignore")
+			return nil
+		}
 	}
 	return nil
 }

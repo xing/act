@@ -512,6 +512,11 @@ func (cr *containerReference) copyDir(dstPath string, srcPath string, useGitIgno
 				return err
 			}
 
+			if !useGitIgnore && fi.Name() == ".gitignore" {
+				log.Debugf("Ignoring .gitignore file %s", file)
+				return nil
+			}
+
 			sansPrefix := strings.TrimPrefix(file, srcPrefix)
 			split := strings.Split(sansPrefix, string(filepath.Separator))
 			if ignorer != nil && ignorer.Match(split, fi.IsDir()) {

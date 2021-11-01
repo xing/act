@@ -265,9 +265,9 @@ func (rc *RunContext) newStepExecutor(step *model.Step) common.Executor {
 
 		runStep, err := sc.isEnabled(ctx)
 		if err != nil {
+			rc.StepResults[rc.CurrentStep].Success = false
 			return err
 		}
-		rc.StepResults[rc.CurrentStep].Success = runStep
 
 		if !runStep {
 			log.Debugf("Skipping step '%s' due to '%s'", sc.Step.String(), sc.Step.If.Value)

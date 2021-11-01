@@ -235,8 +235,8 @@ func (rc *RunContext) Executor() common.Executor {
 		}
 
 		rc.Run.Job().Result = "success"
-		_, ok := ctx.Value(common.ErrorContextKeyVal).(error)
-		if ok {
+		jobError := common.JobError(ctx)
+		if jobError != nil {
 			rc.Run.Job().Result = "failure"
 		}
 
@@ -287,12 +287,7 @@ func (rc *RunContext) newStepExecutor(step *model.Step) common.Executor {
 				return err
 			}
 
-			err, ok := ctx.Value(common.ErrorContextKeyVal).(error)
-			if !ok {
-				return nil
-			}
-
-			return err
+			return common.JobError(ctx)
 		})(ctx)
 		if err == nil {
 			common.Logger(ctx).Infof("  \u2705  Success - %s", sc.Step)

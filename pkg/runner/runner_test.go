@@ -47,6 +47,7 @@ type TestJobFileInfo struct {
 	workflowPath          string
 	eventName             string
 	errorMessage          string
+	assertMessage         string
 	platforms             map[string]string
 	containerArchitecture string
 }
@@ -78,7 +79,7 @@ func runTestJobFile(ctx context.Context, t *testing.T, tjfi TestJobFileInfo) {
 		if tjfi.errorMessage == "" {
 			assert.Nil(t, err, fullWorkflowPath)
 		} else {
-			assert.Error(t, err, tjfi.errorMessage)
+			assert.EqualError(t, err, tjfi.errorMessage, tjfi.assertMessage)
 		}
 	})
 }
@@ -93,39 +94,40 @@ func TestRunEvent(t *testing.T) {
 	}
 
 	tables := []TestJobFileInfo{
-		{"testdata", "basic", "push", "", platforms, ""},
-		{"testdata", "fail", "push", "exit with `FAILURE`: 1", platforms, ""},
-		{"testdata", "runs-on", "push", "", platforms, ""},
-		{"testdata", "checkout", "push", "", platforms, ""},
-		{"testdata", "shells/defaults", "push", "", platforms, ""},
-		{"testdata", "shells/pwsh", "push", "", map[string]string{"ubuntu-latest": "ghcr.io/justingrote/act-pwsh:latest"}, ""}, // custom image with pwsh
-		{"testdata", "shells/bash", "push", "", platforms, ""},
-		{"testdata", "shells/python", "push", "", map[string]string{"ubuntu-latest": "node:12-buster"}, ""}, // slim doesn't have python
-		{"testdata", "shells/sh", "push", "", platforms, ""},
-		{"testdata", "job-container", "push", "", platforms, ""},
-		{"testdata", "job-container-non-root", "push", "", platforms, ""},
-		{"testdata", "container-hostname", "push", "", platforms, ""},
-		{"testdata", "uses-docker-url", "push", "", platforms, ""},
-		{"testdata", "remote-action-docker", "push", "", platforms, ""},
-		{"testdata", "remote-action-js", "push", "", platforms, ""},
-		{"testdata", "local-action-docker-url", "push", "", platforms, ""},
-		{"testdata", "local-action-dockerfile", "push", "", platforms, ""},
-		{"testdata", "local-action-js", "push", "", platforms, ""},
-		{"testdata", "matrix", "push", "", platforms, ""},
-		{"testdata", "matrix-include-exclude", "push", "", platforms, ""},
-		{"testdata", "commands", "push", "", platforms, ""},
-		{"testdata", "workdir", "push", "", platforms, ""},
-		{"testdata", "defaults-run", "push", "", platforms, ""},
-		{"testdata", "uses-composite", "push", "", platforms, ""},
-		{"testdata", "issue-597", "push", "", platforms, ""},
-		{"testdata", "issue-598", "push", "", platforms, ""},
-		{"testdata", "env-and-path", "push", "", platforms, ""},
-		{"testdata", "job-status-check", "push", "job 'fail' failed", platforms, ""},
-		{"../model/testdata", "strategy", "push", "", platforms, ""}, // TODO: move all testdata into pkg so we can validate it with planner and runner
+		{"testdata", "basic", "push", "", "", platforms, ""},
+		{"testdata", "fail", "push", "Job 'build' failed", "exit with `FAILURE`: 1", platforms, ""},
+		{"testdata", "runs-on", "push", "", "", platforms, ""},
+		{"testdata", "checkout", "push", "", "", platforms, ""},
+		{"testdata", "shells/defaults", "push", "", "", platforms, ""},
+		{"testdata", "shells/pwsh", "push", "", "", map[string]string{"ubuntu-latest": "ghcr.io/justingrote/act-pwsh:latest"}, ""}, // custom image with pwsh
+		{"testdata", "shells/bash", "push", "", "", platforms, ""},
+		{"testdata", "shells/python", "push", "", "", map[string]string{"ubuntu-latest": "node:12-buster"}, ""}, // slim doesn't have python
+		{"testdata", "shells/sh", "push", "", "", platforms, ""},
+		{"testdata", "job-container", "push", "", "", platforms, ""},
+		{"testdata", "job-container-non-root", "push", "", "", platforms, ""},
+		{"testdata", "container-hostname", "push", "", "", platforms, ""},
+		{"testdata", "uses-docker-url", "push", "", "", platforms, ""},
+		{"testdata", "remote-action-docker", "push", "", "", platforms, ""},
+		{"testdata", "remote-action-js", "push", "", "", platforms, ""},
+		{"testdata", "local-action-docker-url", "push", "", "", platforms, ""},
+		{"testdata", "local-action-dockerfile", "push", "", "", platforms, ""},
+		{"testdata", "local-action-js", "push", "", "", platforms, ""},
+		{"testdata", "matrix", "push", "", "", platforms, ""},
+		{"testdata", "matrix-include-exclude", "push", "", "", platforms, ""},
+		{"testdata", "commands", "push", "", "", platforms, ""},
+		{"testdata", "workdir", "push", "", "", platforms, ""},
+		{"testdata", "defaults-run", "push", "", "", platforms, ""},
+		{"testdata", "uses-composite", "push", "", "", platforms, ""},
+		{"testdata", "issue-597", "push", "", "", platforms, ""},
+		{"testdata", "issue-598", "push", "", "", platforms, ""},
+		{"testdata", "env-and-path", "push", "", "", platforms, ""},
+		{"testdata", "job-status-check", "push", "job 'fail' failed", "", platforms, ""},
+		{"testdata", "if-expressions", "push", "Job 'mytest' failed", "", platforms, ""},
+		{"../model/testdata", "strategy", "push", "", "", platforms, ""}, // TODO: move all testdata into pkg so we can validate it with planner and runner
 		// {"testdata", "issue-228", "push", "", platforms, ""}, // TODO [igni]: Remove this once everything passes
 
 		// single test for different architecture: linux/arm64
-		{"testdata", "basic", "push", "", platforms, "linux/arm64"},
+		{"testdata", "basic", "push", "", "", platforms, "linux/arm64"},
 	}
 	log.SetLevel(log.DebugLevel)
 

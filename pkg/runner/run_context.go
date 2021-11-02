@@ -281,13 +281,13 @@ func (rc *RunContext) newStepExecutor(step *model.Step) common.Executor {
 		rc.ExprEval = exprEval
 
 		common.Logger(ctx).Infof("\u2B50  Run %s", sc.Step)
-		err = sc.Executor().Then(func(ctx context.Context) error {
+		err = sc.Executor().Finally(func(ctx context.Context) error {
 			err := sc.interpolateOutputs()(ctx)
 			if err != nil {
 				return err
 			}
 
-			return common.JobError(ctx)
+			return nil
 		})(ctx)
 		if err == nil {
 			common.Logger(ctx).Infof("  \u2705  Success - %s", sc.Step)

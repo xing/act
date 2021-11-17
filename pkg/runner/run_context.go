@@ -576,13 +576,6 @@ func (rc *RunContext) getGithubContext() *githubContext {
 		}
 	}
 
-	_, sha, err := common.FindGitRevision(repoPath)
-	if err != nil {
-		log.Warningf("unable to get git revision: %v", err)
-	} else {
-		ghc.Sha = sha
-	}
-
 	if rc.EventJSON != "" {
 		err = json.Unmarshal([]byte(rc.EventJSON), &ghc.Event)
 		if err != nil {
@@ -590,11 +583,40 @@ func (rc *RunContext) getGithubContext() *githubContext {
 		}
 	}
 
-	maybeRef := nestedMapLookup(ghc.Event, ghc.EventName, "ref")
-	if maybeRef != nil {
-		log.Debugf("using github ref from event: %s", maybeRef)
-		ghc.Ref = maybeRef.(string)
-	} else {
+	if ghc.EventName == "pull_request" {
+		ghc.BaseRef = asString(nestedMapLookup(ghc.Event, "pull_request", "base", "ref"))
+		ghc.HeadRef = asString(nestedMapLookup(ghc.Event, "pull_request", "head", "ref"))
+	}
+
+	ghc.setRefAndSha(rc.Config.DefaultBranch, repoPath)
+
+	return ghc
+}
+
+func (ghc *githubContext) setRefAndSha(defaultBranch string, repoPath string) {
+	// https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows
+	// https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads
+	switch ghc.EventName {
+	case "pull_request_target":
+		ghc.Ref = ghc.BaseRef
+		ghc.Sha = asString(nestedMapLookup(ghc.Event, "pull_request", "base", "sha"))
+	case "pull_request", "pull_request_review", "pull_request_review_comment":
+		ghc.Ref = fmt.Sprintf("refs/pull/%s/merge", ghc.Event["number"])
+	case "deployment", "deployment_status":
+		ghc.Ref = asString(nestedMapLookup(ghc.Event, "deployment", "ref"))
+		ghc.Sha = asString(nestedMapLookup(ghc.Event, "deployment", "sha"))
+	case "release":
+		ghc.Ref = asString(nestedMapLookup(ghc.Event, "release", "tag_name"))
+	case "push", "create", "workflow_dispatch":
+		ghc.Ref = asString(ghc.Event["ref"])
+		if deleted, ok := ghc.Event["deleted"].(bool); ok && !deleted {
+			ghc.Sha = asString(ghc.Event["after"])
+		}
+	default:
+		ghc.Ref = asString(nestedMapLookup(ghc.Event, "repository", "default_branch"))
+	}
+
+	if ghc.Ref == "" {
 		ref, err := common.FindGitRef(repoPath)
 		if err != nil {
 			log.Warningf("unable to get git ref: %v", err)
@@ -604,19 +626,21 @@ func (rc *RunContext) getGithubContext() *githubContext {
 		}
 
 		// set the branch in the event data
-		if rc.Config.DefaultBranch != "" {
-			ghc.Event = withDefaultBranch(rc.Config.DefaultBranch, ghc.Event)
+		if defaultBranch != "" {
+			ghc.Event = withDefaultBranch(defaultBranch, ghc.Event)
 		} else {
 			ghc.Event = withDefaultBranch("master", ghc.Event)
 		}
 	}
 
-	if ghc.EventName == "pull_request" {
-		ghc.BaseRef = asString(nestedMapLookup(ghc.Event, "pull_request", "base", "ref"))
-		ghc.HeadRef = asString(nestedMapLookup(ghc.Event, "pull_request", "head", "ref"))
+	if ghc.Sha == "" {
+		_, sha, err := common.FindGitRevision(repoPath)
+		if err != nil {
+			log.Warningf("unable to get git revision: %v", err)
+		} else {
+			ghc.Sha = sha
+		}
 	}
-
-	return ghc
 }
 
 func (ghc *githubContext) isLocalCheckout(step *model.Step) bool {

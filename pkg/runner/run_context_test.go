@@ -376,12 +376,12 @@ func TestGetGitHubContext(t *testing.T) {
 		actor = a
 	}
 
-	repo := "nektos/act"
+	repo := "xing/act"
 	if r := os.Getenv("ACT_REPOSITORY"); r != "" {
 		repo = r
 	}
 
-	owner := "nektos"
+	owner := "xing"
 	if o := os.Getenv("ACT_OWNER"); o != "" {
 		owner = o
 	}

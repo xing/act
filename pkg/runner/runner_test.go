@@ -121,7 +121,7 @@ func TestRunEvent(t *testing.T) {
 		{"testdata", "issue-597", "push", "", "", platforms, ""},
 		{"testdata", "issue-598", "push", "", "", platforms, ""},
 		{"testdata", "env-and-path", "push", "", "", platforms, ""},
-		{"testdata", "job-status-check", "push", "job 'fail' failed", "", platforms, ""},
+		{"testdata", "job-status-check", "push", "Job 'fail' failed", "", platforms, ""},
 		{"testdata", "if-expressions", "push", "Job 'mytest' failed", "", platforms, ""},
 		{"../model/testdata", "strategy", "push", "", "", platforms, ""}, // TODO: move all testdata into pkg so we can validate it with planner and runner
 		// {"testdata", "issue-228", "push", "", platforms, ""}, // TODO [igni]: Remove this once everything passes

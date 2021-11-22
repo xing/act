@@ -22,7 +22,7 @@ jobs:
           CGO_ENABLED: 0
         with:
           version: latest
-      - uses: github/super-linter@v3
+      - uses: github/super-linter@v4.8.4
         env:
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

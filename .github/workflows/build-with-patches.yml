@@ -114,4 +114,5 @@ jobs:
       - name: update patched-master branch
         run: |
           cd act
+          git checkout -b patched-master
           git push --force origin patched-master

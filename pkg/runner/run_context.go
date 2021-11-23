@@ -25,19 +25,38 @@ const ActPath string = "/var/run/act"
 
 // RunContext contains info about current job
 type RunContext struct {
-	Name           string
-	Config         *Config
-	Matrix         map[string]interface{}
-	Run            *model.Run
-	EventJSON      string
-	Env            map[string]string
-	ExtraPath      []string
-	CurrentStep    string
-	StepResults    map[string]*stepResult
-	ExprEval       ExpressionEvaluator
-	JobContainer   container.Container
-	OutputMappings map[MappableOutput]MappableOutput
-	JobName        string
+	Name             string
+	Config           *Config
+	Matrix           map[string]interface{}
+	Run              *model.Run
+	EventJSON        string
+	Env              map[string]string
+	ExtraPath        []string
+	CurrentStep      string
+	StepResults      map[string]*stepResult
+	ExprEval         ExpressionEvaluator
+	JobContainer     container.Container
+	OutputMappings   map[MappableOutput]MappableOutput
+	JobName          string
+	ActionPath       string
+	ActionRef        string
+	ActionRepository string
+	Composite        *model.Action
+	Inputs           map[string]string
+	Parent           *RunContext
+}
+
+func (rc *RunContext) Clone() *RunContext {
+	clone := *rc
+	clone.CurrentStep = ""
+	clone.ActionPath = ""
+	clone.ActionRef = ""
+	clone.ActionRepository = ""
+	clone.Composite = nil
+	clone.Inputs = nil
+	clone.StepResults = nil
+	clone.Parent = rc
+	return &clone
 }
 
 type MappableOutput struct {
@@ -251,6 +270,20 @@ func (rc *RunContext) Executor() common.Executor {
 	}).If(rc.isEnabled)
 }
 
+// Executor returns a pipeline executor for all the steps in the job
+func (rc *RunContext) CompositeExecutor() common.Executor {
+	steps := make([]common.Executor, 0)
+
+	for i, step := range rc.Composite.Runs.Steps {
+		if step.ID == "" {
+			step.ID = fmt.Sprintf("%d", i)
+		}
+		stepcopy := step
+		steps = append(steps, rc.newStepExecutor(&stepcopy))
+	}
+	return common.NewPipelineExecutor(steps...)
+}
+
 func (rc *RunContext) newStepExecutor(step *model.Step) common.Executor {
 	sc := &StepContext{
 		RunContext: rc,
@@ -258,14 +291,20 @@ func (rc *RunContext) newStepExecutor(step *model.Step) common.Executor {
 	}
 	return func(ctx context.Context) error {
 		rc.CurrentStep = sc.Step.ID
-		rc.StepResults[rc.CurrentStep] = &stepResult{
+		(*rc.getStepsContext())[rc.CurrentStep] = &stepResult{
 			Success: true,
 			Outputs: make(map[string]string),
 		}
 
 		runStep, err := sc.isEnabled(ctx)
 		if err != nil {
-			rc.StepResults[rc.CurrentStep].Success = false
+			common.Logger(ctx).Errorf("  \u274C  Error in if: expression - %s", sc.Step)
+			exprEval, err := sc.setupEnv(ctx)
+			if err != nil {
+				return err
+			}
+			rc.ExprEval = exprEval
+			(*rc.getStepsContext())[rc.CurrentStep].Success = false
 			return err
 		}
 
@@ -297,9 +336,9 @@ func (rc *RunContext) newStepExecutor(step *model.Step) common.Executor {
 			if sc.Step.ContinueOnError {
 				common.Logger(ctx).Infof("Failed but continue next step")
 				err = nil
-				rc.StepResults[rc.CurrentStep].Success = true
+				(*rc.getStepsContext())[rc.CurrentStep].Success = true
 			} else {
-				rc.StepResults[rc.CurrentStep].Success = false
+				(*rc.getStepsContext())[rc.CurrentStep].Success = false
 			}
 		}
 		return err
@@ -448,7 +487,7 @@ type jobContext struct {
 
 func (rc *RunContext) getJobContext() *jobContext {
 	jobStatus := "success"
-	for _, stepStatus := range rc.StepResults {
+	for _, stepStatus := range *rc.getStepsContext() {
 		if !stepStatus.Success {
 			jobStatus = "failure"
 			break
@@ -459,8 +498,11 @@ func (rc *RunContext) getJobContext() *jobContext {
 	}
 }
 
-func (rc *RunContext) getStepsContext() map[string]*stepResult {
-	return rc.StepResults
+func (rc *RunContext) getStepsContext() *map[string]*stepResult {
+	if rc.StepResults == nil {
+		rc.StepResults = map[string]*stepResult{}
+	}
+	return &rc.StepResults
 }
 
 func (rc *RunContext) getNeedsTransitive(job *model.Job) []string {
@@ -513,9 +555,9 @@ func (rc *RunContext) getGithubContext() *githubContext {
 		Workspace:        rc.Config.ContainerWorkdir(),
 		Action:           rc.CurrentStep,
 		Token:            rc.Config.Secrets["GITHUB_TOKEN"],
-		ActionPath:       rc.Config.Env["GITHUB_ACTION_PATH"],
-		ActionRef:        rc.Config.Env["RUNNER_ACTION_REF"],
-		ActionRepository: rc.Config.Env["RUNNER_ACTION_REPOSITORY"],
+		ActionPath:       rc.ActionPath,
+		ActionRef:        rc.ActionRef,
+		ActionRepository: rc.ActionRepository,
 		RepositoryOwner:  rc.Config.Env["GITHUB_REPOSITORY_OWNER"],
 		RetentionDays:    rc.Config.Env["GITHUB_RETENTION_DAYS"],
 		RunnerPerflog:    rc.Config.Env["RUNNER_PERFLOG"],

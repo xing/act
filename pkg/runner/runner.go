@@ -43,8 +43,9 @@ type Config struct {
 	ContainerCapAdd       []string          // list of kernel capabilities to add to the containers
 	ContainerCapDrop      []string          // list of kernel capabilities to remove from the containers
 	AutoRemove            bool              // controls if the container is automatically removed upon workflow completion
-	ArtifactServerPath    string            // the path where the artifact server stores uploads
-	ArtifactServerPort    string            // the port the artifact server binds to
+	CompositeRestrictions *model.CompositeRestrictions
+	ArtifactServerPath    string // the path where the artifact server stores uploads
+	ArtifactServerPort    string // the port the artifact server binds to
 }
 
 // Resolves the equivalent host path inside the container
@@ -183,11 +184,10 @@ func handleFailure(plan *model.Plan) common.Executor {
 
 func (runner *runnerImpl) newRunContext(run *model.Run, matrix map[string]interface{}) *RunContext {
 	rc := &RunContext{
-		Config:      runner.config,
-		Run:         run,
-		EventJSON:   runner.eventJSON,
-		StepResults: make(map[string]*stepResult),
-		Matrix:      matrix,
+		Config:    runner.config,
+		Run:       run,
+		EventJSON: runner.eventJSON,
+		Matrix:    matrix,
 	}
 	rc.ExprEval = rc.NewExpressionEvaluator()
 	rc.Name = rc.ExprEval.Interpolate(run.String())

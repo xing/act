@@ -102,6 +102,7 @@ jobs:
           git push --tags
           # tag version in the submodule because goreleaser verifies that the tag is set on the current commit
           cd act
+          git tag -d "${{ needs.calculate-tag.outputs.tag }}" || true
           git tag "${{ needs.calculate-tag.outputs.tag }}"
       - uses: actions/setup-go@v2
         with:

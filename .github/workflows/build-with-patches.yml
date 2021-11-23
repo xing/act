@@ -94,8 +94,7 @@ jobs:
           git config --global user.email github-actions@github.com
           make patch
 
-          # tag version in submodule and parent
-          cd act
+          # tag version
           git tag -d "${{ needs.calculate-tag.outputs.tag }}" || true
           git push origin --delete "${{ needs.calculate-tag.outputs.tag }}" || true
           git tag -m "${{ needs.calculate-tag.outputs.tag }}" "${{ needs.calculate-tag.outputs.tag }}"

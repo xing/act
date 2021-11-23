@@ -9,3 +9,7 @@ act-build: patch
 .PHONY: act-test
 act-test: patch
 	cd act && go test -v ./...
+
+.PHONE: clean
+clean:
+	git submodule foreach git reset --hard origin/master

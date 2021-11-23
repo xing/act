@@ -12,5 +12,5 @@ https://github.com/nektos/act/pull/891.patch
 https://github.com/nektos/act/pull/889.patch
 # fix: continue jobs + steps after failure
 https://github.com/nektos/act/pull/840.patch
-# Feature: uses in composite
-https://github.com/xing/act/pull/27.patch
+# Feature: uses in composite from branch "feature/uses-in-composite"
+https://github.com/xing/act/compare/c990d0216b19a4dac0e62057909db52f073f9c2f...3729f3c0340d799f4bf5e34c2136f03fd8e57b2c.patch

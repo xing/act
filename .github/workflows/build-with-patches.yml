@@ -110,3 +110,7 @@ jobs:
           args: release --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: update patched-master branch
+        run: |
+          cd act
+          git push --force origin patched-master

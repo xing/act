@@ -2,7 +2,7 @@ name: Sync latest upstream master into local master
 
 on:
   schedule:
-    - cron: "42 13 * * *"
+    - cron: "44 14 * * *"
   workflow_dispatch:
 
 jobs:

@@ -29,6 +29,8 @@ jobs:
           latest="${latest#https://github.com/xing/act/releases/tag/}"          
           echo ::set-output name=latest::${latest}
 
+          echo "tag: ${tag} latest: ${latest}"
+
   build:
     runs-on: ubuntu-latest
     needs: [calculate-tag]

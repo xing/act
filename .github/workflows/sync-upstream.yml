@@ -13,7 +13,7 @@ jobs:
         with:
           ref: master
       - run: |
-          git remote add upstream git@github.com:nektos/act.git
+          git remote add upstream https://github.com/nektos/act.git
           git fetch upstream
           git reset --hard upstream/master
           git push --force origin master

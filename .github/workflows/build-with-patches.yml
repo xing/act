@@ -27,7 +27,7 @@ jobs:
           echo ::set-output name=tag::${tag}
 
           latest="$(curl -fsSLI -o /dev/null -w "%{url_effective}" https://github.com/xing/act/releases/latest)"
-          latest="${latest#https://github.com/xing/act/releases/tag/}"          
+          latest="${latest#https://github.com/xing/act/releases/tag/}"
           echo ::set-output name=latest::${latest}
 
           echo "tag: ${tag} latest: ${latest}"
@@ -94,11 +94,15 @@ jobs:
           git config --global user.email github-actions@github.com
           make patch
 
-          # tag version
+          # tag version on the superproject because the goreleaser action reads it
           git tag -d "${{ needs.calculate-tag.outputs.tag }}" || true
           git push origin --delete "${{ needs.calculate-tag.outputs.tag }}" || true
+          # push an annotated tag to have latest release sorted by taggerdate
           git tag -m "${{ needs.calculate-tag.outputs.tag }}" "${{ needs.calculate-tag.outputs.tag }}"
           git push --tags
+          # tag version in the submodule because goreleaser verifies that the tag is set on the current commit
+          cd act
+          git tag "${{ needs.calculate-tag.outputs.tag }}"
       - uses: actions/setup-go@v2
         with:
           go-version: ${{ env.GO_VERSION }}

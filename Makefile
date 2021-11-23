@@ -12,4 +12,4 @@ act-test: patch
 
 .PHONE: clean
 clean:
-	git submodule foreach git reset --hard origin/master
+	git submodule update --init --force --checkout

@@ -95,6 +95,7 @@ jobs:
           make patch
 
           # tag version in submodule and parent
+          git push origin --delete "${{ needs.calculate-tag.outputs.tag }}" || true
           cd act
           git tag -m "${{ needs.calculate-tag.outputs.tag }}" "${{ needs.calculate-tag.outputs.tag }}"
           cd ..

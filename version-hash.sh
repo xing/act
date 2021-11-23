@@ -7,9 +7,6 @@ cd act || exit 1
 
 temp=$(mktemp -d -t act-patches-XXXXXXXXXX)
 
-# just test
-echo 1 > "$temp/counter"
-
 git describe --tags --dirty --always > "$temp/upstream"
 
 grep -v '^#' < ../patches | while IFS= read -r patch

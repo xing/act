@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euxo pipefail
+set -euo pipefail
 
 cd act || exit 1
 
@@ -11,7 +11,7 @@ git describe --tags --dirty --always > "$temp/upstream"
 
 grep -v '^#' < ../patches | while IFS= read -r patch
 do
-    curl -L "$patch" > "$temp/${patch//\//_}"
+    curl -sL "$patch" > "$temp/${patch//\//_}"
 done
 
 hash=$(cat "$temp"/* | md5sum |cut -d " " -f 1)

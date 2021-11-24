@@ -14,3 +14,5 @@ https://github.com/nektos/act/pull/889.patch
 https://github.com/nektos/act/pull/840.patch
 # Feature: uses in composite from branch "feature/uses-in-composite"
 https://github.com/xing/act/compare/c990d0216b19a4dac0e62057909db52f073f9c2f...3729f3c0340d799f4bf5e34c2136f03fd8e57b2c.patch
+# feat: implement pre and post actions
+https://github.com/xing/act/compare/cb494ca42d1d868113ea2b3216c587c74a0bdcde...e3f206da935888673fcdc467b501c006157de84b.patch

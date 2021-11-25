@@ -33,4 +33,7 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           make update-act
-          (git commit -a -m "chore: update act (submodule)" && git push origin distribution) || true
+          if git status --porcelain | grep 'M act' >/dev/null; then
+            git commit -a -m "chore: update act (submodule)"
+            git push origin distribution
+          fi

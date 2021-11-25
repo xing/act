@@ -30,6 +30,8 @@ jobs:
           submodules: true
           token: ${{ steps.get_workflow_token.outputs.token }}
       - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
           make update-act
           git commit -a -m "chore: update act (submodule)"
           git push origin distribution

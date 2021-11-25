@@ -12,6 +12,7 @@ act-test: patch
 
 .PHONY: clean
 clean:
+	git submodule foreach 'git am --abort || true'
 	git submodule update --init --force --checkout
 
 .PHONY: update-act

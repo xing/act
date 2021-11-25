@@ -17,10 +17,18 @@ jobs:
           git fetch upstream
           git reset --hard upstream/master
           git push --follow-tags --force origin master
+      - name: Get Token
+        id: get_workflow_token
+        uses: xing/workflow-application-token-action@main
+        with:
+          application_id: ${{ secrets.XING_ACTIONS_APP_ID }}
+          application_private_key: ${{ secrets.XING_ACTIONS_PRIVATE_KEY }}
+          permissions: "contents:write"
       - uses: actions/checkout@v2
         with:
           ref: distribution
           submodules: true
+          token: ${{ steps.get_workflow_token.outputs.token }}
       - run: |
           make update-act
           git commit -a -m "chore: update act (submodule)"

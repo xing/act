@@ -16,4 +16,12 @@ jobs:
           git remote add upstream https://github.com/nektos/act.git
           git fetch upstream
           git reset --hard upstream/master
-          git push --force origin master
+          git push --follow-tags --force origin master
+      - uses: actions/checkout@v2
+        with:
+          ref: distribution
+          submodules: true
+      - run: |
+          make update-act
+          git commit -a -m "chore: update act (submodule)"
+          git push origin distribution

@@ -10,6 +10,10 @@ act-build: patch
 act-test: patch
 	cd act && go test -v ./...
 
-.PHONE: clean
+.PHONY: clean
 clean:
 	git submodule update --init --force --checkout
+
+.PHONY: update-act
+update-act:
+	git submodule foreach git pull origin master

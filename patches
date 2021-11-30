@@ -4,13 +4,9 @@ https://github.com/xing/act/pull/23.patch
 # customize goreleaser configuration
 https://github.com/xing/act/pull/22.patch
 # -------------------------------------------
-# feat: allow existing logger from context
-https://github.com/nektos/act/pull/898.patch
-# feat: read docker credentials from local docker config
-https://github.com/nektos/act/pull/891.patch
 # feat: try to read ref and sha from event payload if available
 https://github.com/nektos/act/pull/889.patch
 # fix: continue jobs + steps after failure
 https://github.com/nektos/act/pull/840.patch
 # Feature: uses in composite from branch "feature/uses-in-composite"
-https://github.com/xing/act/compare/c990d0216b19a4dac0e62057909db52f073f9c2f...3729f3c0340d799f4bf5e34c2136f03fd8e57b2c.patch
+https://github.com/xing/act/compare/91cb3528be2ce580acaf463da3e9dad7e4761279...153b191a92a41ac619e1e94f40a43437d5ed1279.patch

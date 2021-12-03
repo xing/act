@@ -122,6 +122,8 @@ func New(runnerConfig *Config) (Runner, error) {
 // NewPlanExecutor ...
 //nolint:gocyclo
 func (runner *runnerImpl) NewPlanExecutor(plan *model.Plan) common.Executor {
+	printPlan(plan)
+
 	maxJobNameLen := 0
 
 	stagePipeline := make([]common.Executor, 0)
@@ -174,7 +176,7 @@ func (runner *runnerImpl) NewPlanExecutor(plan *model.Plan) common.Executor {
 					stageExecutor = append(stageExecutor, func(ctx context.Context) error {
 						logger := common.Logger(ctx)
 						jobName := fmt.Sprintf("%-*s", maxJobNameLen, rc.String())
-						return rc.Executor().Finally(func(ctx context.Context) error {
+						return rc.logJobBoundaries(rc.Executor()).Finally(func(ctx context.Context) error {
 							isLastRunningContainer := func(currentStage int, currentRun int) bool {
 								return currentStage == len(plan.Stages)-1 && currentRun == len(stage.Runs)-1
 							}

@@ -3,9 +3,9 @@
 https://github.com/xing/act/pull/23.patch
 # customize goreleaser configuration
 https://github.com/xing/act/pull/22.patch
-# -------------------------------------------
 # feat: print plan summary upfront to executing it
-https://github.com/nektos/act/pull/913.patch
+https://github.com/xing/act/pull/34.patch
+# -------------------------------------------
 # feat: try to read ref and sha from event payload if available
 https://github.com/nektos/act/pull/889.patch
 # fix: continue jobs + steps after failure

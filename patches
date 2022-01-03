@@ -8,5 +8,3 @@ https://github.com/xing/act/pull/34.patch
 # -------------------------------------------
 # feat: try to read ref and sha from event payload if available
 https://github.com/nektos/act/pull/889.patch
-# Feature: uses in composite from branch "feature/uses-in-composite"
-https://github.com/xing/act/compare/93149e5b3f18d6ccfab90651c99aee80df9cd89e...9ce22852eb10a2d291098735a77e909db4c22f41.patch

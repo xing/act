@@ -8,3 +8,5 @@ https://github.com/xing/act/pull/34.patch
 # -------------------------------------------
 # feat: try to read ref and sha from event payload if available
 https://github.com/nektos/act/pull/889.patch
+# fix: set composite outputs on failure
+https://github.com/nektos/act/pull/950.patch

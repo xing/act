@@ -6,6 +6,12 @@ This repository is a fork of `nektos/act` with a few changes:
 - We push the patched master branch as `patched-master`
 - We publish a new release each time something changes (upstream `master` is updated or patches are updated)
 
+## Status
+
+[![Synced with upstream](https://github.com/xing/act/actions/workflows/sync-upstream.yml/badge.svg)](https://github.com/xing/act/actions/workflows/sync-upstream.yml)  
+[![Build with patches](https://github.com/xing/act/actions/workflows/build-with-patches.yml/badge.svg)](https://github.com/xing/act/actions/workflows/build-with-patches.yml)  
+
+
 ## Development workflow
 
 We have two different types of patches:

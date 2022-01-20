@@ -12,5 +12,5 @@ https://github.com/xing/act/pull/36.patch
 # -------------------------------------------
 # feat: try to read ref and sha from event payload if available
 https://github.com/nektos/act/pull/889.patch
-# fix: set composite outputs on failure
+# feat: add skipped status as step result
 https://github.com/nektos/act/pull/950.patch

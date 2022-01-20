@@ -14,3 +14,9 @@ https://github.com/xing/act/pull/36.patch
 https://github.com/nektos/act/pull/889.patch
 # feat: add skipped status as step result
 https://github.com/nektos/act/pull/950.patch
+# fix: set composite outputs on failure
+https://github.com/nektos/act/pull/945.patch
+# SSH-agent authentication for cloning actions
+https://github.com/nektos/act/pull/939.patch
+# Refactor expression evaluator to use parser from actionlint package
+https://github.com/nektos/act/pull/908.patch

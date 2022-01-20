@@ -770,7 +770,7 @@ func (ra *remoteAction) CloneURL() string {
 }
 
 func (ra *remoteAction) IsCheckout() bool {
-	if ra.Org == "actions" && ra.Repo == "checkout" {
+	if (ra.Org == "actions" || ra.Org == "gh-actions") && ra.Repo == "checkout" {
 		return true
 	}
 	return false

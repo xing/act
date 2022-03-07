@@ -5,8 +5,6 @@ https://github.com/xing/act/pull/23.patch
 https://github.com/xing/act/pull/22.patch
 # feat: print plan summary upfront to executing it
 https://github.com/xing/act/pull/34.patch
-# Revert "fix: add simple concurrency limit (#823)"
-https://github.com/xing/act/pull/36.patch
 # -------------------------------------------
 # SSH-agent authentication for cloning actions
 https://github.com/nektos/act/pull/939.patch

@@ -8,3 +8,5 @@ https://github.com/xing/act/pull/34.patch
 # -------------------------------------------
 # SSH-agent authentication for cloning actions
 https://github.com/nektos/act/pull/939.patch
+# fix: coerce booleans to numbers for comparison in exprparser
+https://github.com/nektos/act/pull/1030.patch

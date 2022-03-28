@@ -6,5 +6,3 @@ https://github.com/xing/act/pull/22.patch
 # feat: print plan summary upfront to executing it
 https://github.com/xing/act/pull/34.patch
 # -------------------------------------------
-# SSH-agent authentication for cloning actions
-https://github.com/nektos/act/pull/939.patch

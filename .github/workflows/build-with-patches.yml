@@ -3,7 +3,7 @@ name: Build act with patches
 on: [push]
 
 env:
-  GO_VERSION: 1.17
+  GO_VERSION: 1.18
 
 jobs:
   calculate-tag:

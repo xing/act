@@ -4,6 +4,8 @@ https://github.com/xing/act/pull/23.patch
 # customize goreleaser configuration
 https://github.com/xing/act/pull/22.patch
 # -------------------------------------------
+# fix: return invalid step type
+https://github.com/nektos/act/pull/1157.patch
 # refactor: remove composite action runcontext workaround
 https://github.com/nektos/act/pull/1085.patch
 # implement pre and post steps

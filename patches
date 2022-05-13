@@ -6,7 +6,5 @@ https://github.com/xing/act/pull/22.patch
 # -------------------------------------------
 # implement pre and post steps
 https://github.com/nektos/act/pull/1089.patch
-# feat: implement pre-action step
-https://github.com/nektos/act/pull/1110.patch
 # feat: print plan summary upfront to executing it
 https://github.com/xing/act/pull/34.patch

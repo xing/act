@@ -23,6 +23,9 @@ func printPlan(plan *model.Plan) {
 		for _, run := range stage.Runs {
 			log.Debugf("## %s | %s", escapeID(run.JobID), run.Job().Name)
 			for n, step := range run.Job().Steps {
+				if step == nil {
+					continue
+				}
 				id := step.ID
 				if id == "" {
 					id = fmt.Sprint(n)

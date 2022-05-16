@@ -9,22 +9,27 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: master
-      - run: |
-          git remote add upstream https://github.com/nektos/act.git
-          git fetch upstream
-          git reset --hard upstream/master
-          git push --follow-tags --force origin master
-      - name: Get Token
+      - name: Get Token with workflows permission
         id: get_workflow_token
         uses: xing/workflow-application-token-action@main
         with:
           application_id: ${{ secrets.XING_ACTIONS_APP_ID }}
           application_private_key: ${{ secrets.XING_ACTIONS_PRIVATE_KEY }}
-          permissions: "contents:write"
+          permissions: "contents:write,workflows:write"
       - uses: actions/checkout@v2
+        name: Reset xing/act#master to latest nektos/act#master
+        with:
+          ref: master
+          token: ${{ steps.get_workflow_token.outputs.token }}
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git remote add upstream https://github.com/nektos/act.git
+          git fetch upstream
+          git reset --hard upstream/master
+          git push --follow-tags --force origin master
+      - uses: actions/checkout@v2
+        name: Update act submodule and push to xing/act#distribution
         with:
           ref: distribution
           submodules: true

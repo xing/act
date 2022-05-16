@@ -1,6 +1,6 @@
 name: Build act with patches
 
-on: [push]
+on: [push, workflow_dispatch]
 
 env:
   GO_VERSION: 1.18

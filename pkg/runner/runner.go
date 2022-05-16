@@ -138,8 +138,8 @@ func (runner *runnerImpl) NewPlanExecutor(plan *model.Plan) common.Executor {
 				}
 
 				if job.Strategy != nil {
-					strategyRc := runner.newRunContext(run, nil)
-					if err := strategyRc.NewExpressionEvaluator().EvaluateYamlNode(&job.Strategy.RawMatrix); err != nil {
+					strategyRc := runner.newRunContext(ctx, run, nil)
+					if err := strategyRc.NewExpressionEvaluator(ctx).EvaluateYamlNode(ctx, &job.Strategy.RawMatrix); err != nil {
 						log.Errorf("Error while evaluating matrix: %v", err)
 					}
 				}
@@ -154,7 +154,7 @@ func (runner *runnerImpl) NewPlanExecutor(plan *model.Plan) common.Executor {
 				}
 
 				for i, matrix := range matrixes {
-					rc := runner.newRunContext(run, matrix)
+					rc := runner.newRunContext(ctx, run, matrix)
 					rc.JobName = rc.Name
 					if len(matrixes) > 1 {
 						rc.Name = fmt.Sprintf("%s-%d", rc.Name, i+1)
@@ -163,6 +163,7 @@ func (runner *runnerImpl) NewPlanExecutor(plan *model.Plan) common.Executor {
 						maxJobNameLen = len(rc.String())
 					}
 					stageExecutor = append(stageExecutor, func(ctx context.Context) error {
+						logger := common.Logger(ctx)
 						jobName := fmt.Sprintf("%-*s", maxJobNameLen, rc.String())
 						return rc.Executor().Finally(func(ctx context.Context) error {
 							isLastRunningContainer := func(currentStage int, currentRun int) bool {
@@ -170,9 +171,9 @@ func (runner *runnerImpl) NewPlanExecutor(plan *model.Plan) common.Executor {
 							}
 
 							if runner.config.AutoRemove && isLastRunningContainer(s, r) {
-								log.Infof("Cleaning up container for job %s", rc.JobName)
+								logger.Infof("Cleaning up container for job %s", rc.JobName)
 								if err := rc.stopJobContainer()(ctx); err != nil {
-									log.Errorf("Error while cleaning container: %v", err)
+									logger.Errorf("Error while cleaning container: %v", err)
 								}
 							}
 
@@ -210,7 +211,7 @@ func handleFailure(plan *model.Plan) common.Executor {
 	}
 }
 
-func (runner *runnerImpl) newRunContext(run *model.Run, matrix map[string]interface{}) *RunContext {
+func (runner *runnerImpl) newRunContext(ctx context.Context, run *model.Run, matrix map[string]interface{}) *RunContext {
 	rc := &RunContext{
 		Config:      runner.config,
 		Run:         run,
@@ -218,7 +219,7 @@ func (runner *runnerImpl) newRunContext(run *model.Run, matrix map[string]interf
 		StepResults: make(map[string]*model.StepResult),
 		Matrix:      matrix,
 	}
-	rc.ExprEval = rc.NewExpressionEvaluator()
-	rc.Name = rc.ExprEval.Interpolate(run.String())
+	rc.ExprEval = rc.NewExpressionEvaluator(ctx)
+	rc.Name = rc.ExprEval.Interpolate(ctx, run.String())
 	return rc
 }

@@ -6,5 +6,7 @@ https://github.com/xing/act/pull/22.patch
 # -------------------------------------------
 # implement pre and post steps
 https://github.com/nektos/act/pull/1089.patch
+# Improve logging
+https://github.com/nektos/act/pull/1171.patch
 # feat: print plan summary upfront to executing it
-https://github.com/xing/act/pull/34.patch
+https://github.com/xing/act/pull/53.patch

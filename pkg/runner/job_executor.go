@@ -7,6 +7,7 @@ import (
 
 	"github.com/nektos/act/pkg/common"
 	"github.com/nektos/act/pkg/model"
+	"github.com/sirupsen/logrus"
 )
 
 type jobInfo interface {
@@ -123,7 +124,10 @@ func useStepLogger(rc *RunContext, stepModel *model.Step, stage stepStage, execu
 	return func(ctx context.Context) error {
 		ctx = withStepLogger(ctx, stepModel.ID, stepModel.String(), stage.String())
 
-		rawLogger := common.Logger(ctx).WithField("raw_output", true)
+		rawLogger := common.Logger(ctx).WithFields(logrus.Fields{
+			"raw_output": true,
+			"stage":      stage.String(),
+		})
 		logWriter := common.NewLineWriter(rc.commandHandler(ctx), func(s string) bool {
 			if rc.Config.LogOutput {
 				rawLogger.Infof("%s", s)

@@ -10,3 +10,5 @@ https://github.com/nektos/act/pull/1089.patch
 https://github.com/nektos/act/pull/1171.patch
 # feat: print plan summary upfront to executing it
 https://github.com/xing/act/pull/53.patch
+# Squashed and patched allow to interrupt execution
+https://github.com/xing/act/pull/54.patch

@@ -8,7 +8,5 @@ https://github.com/xing/act/pull/22.patch
 https://github.com/nektos/act/pull/1171.patch
 # feat: print plan summary upfront to executing it
 https://github.com/xing/act/pull/53.patch
-# Squashed and patched allow to interrupt execution
-https://github.com/xing/act/pull/54.patch
 # fix: restore job logger for clean-up tasks after cancellation
 https://github.com/xing/act/pull/56.patch

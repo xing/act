@@ -8,3 +8,5 @@ https://github.com/xing/act/pull/22.patch
 https://github.com/xing/act/pull/53.patch
 # fix: restore job logger for clean-up tasks after cancellation
 https://github.com/xing/act/pull/56.patch
+# fix: the number in the github event is of type number
+https://github.com/nektos/act/pull/1252.patch

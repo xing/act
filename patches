@@ -8,3 +8,7 @@ https://github.com/xing/act/pull/22.patch
 https://github.com/xing/act/pull/53.patch
 # fix: restore job logger for clean-up tasks after cancellation
 https://github.com/xing/act/pull/56.patch
+# refactor: ignore already closed error
+https://github.com/nektos/act/pull/1285.patch
+# fix: ensure all post steps are executed
+https://github.com/nektos/act/pull/1286.patch

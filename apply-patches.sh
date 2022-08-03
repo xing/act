@@ -19,7 +19,7 @@ do
       echo
       echo "  Patch from: $patch"
       echo
-      curl -sL "$patch" | git am -3 || exit 1
+      curl -sL "${patch/%.patch}.patch" | git am -3 || exit 1
       ;;
   esac
 done < ../patches

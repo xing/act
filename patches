@@ -8,3 +8,5 @@ https://github.com/xing/act/pull/22
 https://github.com/xing/act/pull/53
 # fix: restore job logger for clean-up tasks after cancellation
 https://github.com/xing/act/pull/56
+# fix: align github.ref to GitHub Action
+https://github.com/nektos/act/pull/1362

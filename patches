@@ -5,4 +5,4 @@ https://github.com/xing/act/pull/23
 https://github.com/xing/act/pull/22
 # -------------------------------------------
 # fix: restore job logger for clean-up tasks after cancellation
-https://github.com/xing/act/pull/56
+https://github.com/nektos/act/pull/1365

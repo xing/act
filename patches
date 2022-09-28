@@ -4,5 +4,3 @@ https://github.com/xing/act/pull/23
 # customize goreleaser configuration
 https://github.com/xing/act/pull/22
 # -------------------------------------------
-# fix: restore job logger for clean-up tasks after cancellation
-https://github.com/nektos/act/pull/1365

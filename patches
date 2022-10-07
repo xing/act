@@ -6,3 +6,5 @@ https://github.com/xing/act/pull/22
 # -------------------------------------------
 # revert docker options parsering changes
 https://github.com/xing/act/pull/77
+# fix: interpolate action input defaults
+https://github.com/nektos/act/pull/1376

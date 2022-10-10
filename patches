@@ -4,5 +4,5 @@ https://github.com/xing/act/pull/23
 # customize goreleaser configuration
 https://github.com/xing/act/pull/22
 # -------------------------------------------
-# revert docker options parsering changes
-https://github.com/xing/act/pull/77
+# test: add test for networking setup in act
+https://github.com/nektos/act/pull/1375

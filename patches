@@ -4,7 +4,3 @@ https://github.com/xing/act/pull/23
 # customize goreleaser configuration
 https://github.com/xing/act/pull/22
 # -------------------------------------------
-# test: add test for networking setup in act
-https://github.com/nektos/act/pull/1375
-# fix: re-evaluate env for remote composite actions
-https://github.com/nektos/act/pull/1385

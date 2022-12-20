@@ -3,4 +3,6 @@
 https://github.com/xing/act/pull/23
 # customize goreleaser configuration
 https://github.com/xing/act/pull/22
+# test: skip host environment test cases
+https://github.com/xing/act/pull/93
 # -------------------------------------------

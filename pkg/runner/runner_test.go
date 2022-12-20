@@ -219,9 +219,9 @@ func TestRunEvent(t *testing.T) {
 }
 
 func TestRunEventHostEnvironment(t *testing.T) {
-	if testing.Short() {
-		t.Skip("skipping integration test")
-	}
+	// if testing.Short() {
+	t.Skip("skipping HostEnvironment test")
+	// }
 
 	ctx := context.Background()
 

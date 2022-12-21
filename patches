@@ -10,3 +10,5 @@ https://github.com/nektos/act/pull/1519
 https://github.com/nektos/act/pull/1520
 https://github.com/nektos/act/pull/1521
 https://github.com/nektos/act/pull/1525
+# fix: extra path lost in composite actions
+https://github.com/nektos/act/pull/1531

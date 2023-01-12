@@ -4,11 +4,7 @@ https://github.com/xing/act/pull/23
 # customize goreleaser configuration
 https://github.com/xing/act/pull/22
 # -------------------------------------------
-# fix: preserve job result state in case of failure
-https://github.com/nektos/act/pull/1519
 # Patches for reusable workflows (not yet merged by upstream)
 https://github.com/nektos/act/pull/1520
 https://github.com/nektos/act/pull/1521
 https://github.com/nektos/act/pull/1525
-# fix: extra path lost in composite actions
-https://github.com/nektos/act/pull/1531

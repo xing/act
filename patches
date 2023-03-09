@@ -4,3 +4,5 @@ https://github.com/xing/act/pull/23
 # customize goreleaser configuration
 https://github.com/xing/act/pull/22
 # -------------------------------------------
+# fix: correct ref and ref_name
+https://github.com/nektos/act/pull/1672

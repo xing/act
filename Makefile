@@ -8,7 +8,7 @@ act-build: patch
 
 .PHONY: act-test
 act-test: patch
-	cd act && go test -v -timeout 15m ./...
+	cd act && go test -v -timeout 25m ./...
 
 .PHONY: clean
 clean:

@@ -2,9 +2,6 @@ name: Build act with patches
 
 on: [push, workflow_dispatch]
 
-env:
-  GO_VERSION: 1.18
-
 jobs:
   calculate-tag:
     runs-on: ubuntu-latest
@@ -37,7 +34,7 @@ jobs:
           git config --global user.email github-actions@github.com
       - uses: actions/setup-go@v3
         with:
-          go-version: ${{ env.GO_VERSION }}
+          go-version-file: act/go.mod
       - name: compile
         run: |
           make act-build
@@ -57,7 +54,7 @@ jobs:
           git config --global user.email github-actions@github.com
       - uses: actions/setup-go@v3
         with:
-          go-version: ${{ env.GO_VERSION }}
+          go-version-file: act/go.mod
       - uses: docker/setup-qemu-action@v2
       - uses: actions/cache@v3
         with:
@@ -95,7 +92,7 @@ jobs:
           git tag "${{ needs.calculate-tag.outputs.tag }}"
       - uses: actions/setup-go@v3
         with:
-          go-version: ${{ env.GO_VERSION }}
+          go-version-file: act/go.mod
       - name: GoReleaser
         uses: goreleaser/goreleaser-action@v1
         with:

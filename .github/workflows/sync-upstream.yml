@@ -16,7 +16,7 @@ jobs:
           application_id: ${{ secrets.XING_ACTIONS_APP_ID }}
           application_private_key: ${{ secrets.XING_ACTIONS_PRIVATE_KEY }}
           permissions: "contents:write,workflows:write"
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         name: Reset xing/act#master to latest nektos/act#master
         with:
           ref: master
@@ -28,7 +28,7 @@ jobs:
           git fetch upstream
           git reset --hard upstream/master
           git push --follow-tags --force origin master
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         name: Update act submodule and push to xing/act#distribution
         with:
           ref: distribution

@@ -32,7 +32,7 @@ jobs:
         run: |
           git config --global user.name github-actions
           git config --global user.email github-actions@github.com
-      - uses: actions/setup-go@v3
+      - uses: actions/setup-go@v5
         with:
           go-version-file: act/go.mod
       - name: compile
@@ -52,7 +52,7 @@ jobs:
         run: |
           git config --global user.name github-actions
           git config --global user.email github-actions@github.com
-      - uses: actions/setup-go@v3
+      - uses: actions/setup-go@v5
         with:
           go-version-file: act/go.mod
       - uses: docker/setup-qemu-action@v2
@@ -90,7 +90,7 @@ jobs:
           cd act
           git tag -d "${{ needs.calculate-tag.outputs.tag }}" || true
           git tag "${{ needs.calculate-tag.outputs.tag }}"
-      - uses: actions/setup-go@v3
+      - uses: actions/setup-go@v5
         with:
           go-version-file: act/go.mod
       - name: GoReleaser

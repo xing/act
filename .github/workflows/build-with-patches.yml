@@ -94,7 +94,7 @@ jobs:
         with:
           go-version-file: act/go.mod
       - name: GoReleaser
-        uses: goreleaser/goreleaser-action@v1
+        uses: goreleaser/goreleaser-action@v6
         with:
           version: latest
           workdir: ./act

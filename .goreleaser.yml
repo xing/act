@@ -1,3 +1,8 @@
+release:
+  github:
+    owner: xing
+    name: act
+
 before:
   hooks:
     - go mod tidy
@@ -7,18 +12,9 @@ builds:
     goos:
       - darwin
       - linux
-      - windows
     goarch:
       - amd64
-      - '386'
       - arm64
-      - arm
-    goarm:
-      - '6'
-      - '7'
-    ignore:
-      - goos: windows
-        goarm: '6'
 checksum:
   name_template: 'checksums.txt'
 archives:
@@ -45,6 +41,3 @@ changelog:
       order: 2
     - title: 'Other'
       order: 999
-release:
-  prerelease: auto
-  mode: append

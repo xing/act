@@ -10,7 +10,7 @@ jobs:
       latestHash: ${{ steps.release-tag.outputs.latestHash }}
       tag: ${{ steps.release-tag.outputs.tag }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: true
@@ -24,7 +24,7 @@ jobs:
     needs: [calculate-tag]
     if: needs.calculate-tag.outputs.versionHash != needs.calculate-tag.outputs.latestHash
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: true
           fetch-depth: 0
@@ -44,7 +44,7 @@ jobs:
     needs: [calculate-tag]
     if: needs.calculate-tag.outputs.versionHash != needs.calculate-tag.outputs.latestHash
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: true
           fetch-depth: 0
@@ -70,7 +70,7 @@ jobs:
     needs: ["calculate-tag", "build", "test"]
     if: github.ref == 'refs/heads/distribution' && needs.calculate-tag.outputs.versionHash != needs.calculate-tag.outputs.latestHash
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: true
